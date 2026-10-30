@@ -21,8 +21,10 @@ jobs:
           java-version: '17'
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
-      - name: Install Android platform
-        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+          # Keep SDK setup from attempting to install deprecated "tools" package.
+        with:
+          packages: "platforms;android-35 build-tools;35.0.0"
+          accept-android-sdk-licenses: true
       - name: Build debug APK
         run: gradle --no-daemon :app:assembleDebug
       - name: Upload APK
